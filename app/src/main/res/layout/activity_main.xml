@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:fitsSystemWindows="true"
+        tools:context=".MainActivity"
+        tools:ignore="RtlHardcoded,HardcodedText,RtlSymmetry,SmallSp">
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            app:title="@string/app_name"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0">
+    </androidx.appcompat.widget.Toolbar>
+
+    <fragment
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:name="com.example.birthreminder.calendar.CalendarFragment"
+            tools:layout="@layout/fragment_calendar" android:id="@+id/calendar"
+            android:layout_marginTop="?attr/actionBarSize"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

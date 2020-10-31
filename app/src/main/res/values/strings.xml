@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BirthMinder</string>
+    <string name="get_data">跳转日期</string>
+    <string-array name="indicator_string_array">
+        <item>公历</item>
+        <item>农历</item>
+    </string-array>
+</resources>

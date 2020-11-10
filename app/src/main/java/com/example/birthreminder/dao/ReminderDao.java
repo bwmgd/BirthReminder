@@ -8,7 +8,7 @@ import java.util.List;
 @Dao
 public interface ReminderDao {
     @Insert
-    void insert(Reminder reminder);
+    long insert(Reminder reminder);
 
     @Update
     void update(Reminder reminder);

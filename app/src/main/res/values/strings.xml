@@ -1,6 +1,30 @@
 <resources>
     <string name="app_name">BirthMinder</string>
-    <string name="get_data">跳转日期</string>
+    <string name="get_data">选择日期</string>
+    <string name="of">的</string>
+    <string name="birthday">岁生日</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="name">姓名</string>
+    <string name="getFrom">通讯录获取</string>
+    <string name="birth">生日</string>
+    <string name="choose">选择</string>
+    <string name="phone">手机</string>
+    <string name="addList">添加的生日列表</string>
+    <string name="save">保存</string>
+    <string name="_2_29_n">是2月29过生日呀!</string>
+    <string name="_2_29">只过2/29</string>
+    <string name="_2_28">过2/28</string>
+    <string name="_3_1">过3/1</string>
+    <string name="lunar">平年打算怎么过呢?</string>
+    <string name="lunar_month">是闰月过生日呀!</string>
+    <string name="normal">平年不润的月份也过</string>
+    <string name="only_leap">只过闰月</string>
+    <string name="leap_and_normal">闰年过俩</string>
+    <string name="lunar_birth">是农历生日呀</string>
+    <string name="lunar_leap">闰年打算怎么过呢</string>
+    <string name="no_leap">不过闰月</string>
     <string-array name="indicator_string_array">
         <item>公历</item>
         <item>农历</item>

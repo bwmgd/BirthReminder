@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:elevation="10dp"
+        android:columnCount="3"
+        android:background="@drawable/shape_round_corner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".PeopleActivity"
+        android:padding="10dp">
+    <TextView
+            android:text="@string/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000" android:layout_gravity="center" android:layout_marginEnd="4dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="8"
+            android:id="@+id/editTextPersonName" android:hint="@string/name"
+            android:layout_gravity="center" android:importantForAutofill="no" android:textSize="14sp"/>
+    <Button
+            android:text="@string/getFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/getPeopleButton"
+            android:layout_gravity="fill"/>
+    <TextView
+            android:text="@string/birth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000" android:layout_gravity="center" android:layout_marginEnd="4dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="8"
+            android:id="@+id/editTextDate" android:hint="@string/birth"
+            android:layout_gravity="center" android:importantForAutofill="no" android:textSize="14sp"/>
+    <Button
+            android:text="@string/choose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/getDateButton"
+            android:layout_gravity="center_horizontal|fill"/>
+    <TextView
+            android:text="@string/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000" android:layout_gravity="center" android:layout_marginEnd="4dp"/>
+
+    <LinearLayout
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/editTextPhone"
+                android:hint="@string/phone"
+                android:importantForAutofill="no"
+                android:textSize="14sp" android:layout_marginEnd="10dp"/>
+        <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@mipmap/color"
+                android:id="@+id/colorImageView"
+                tools:ignore="ContentDescription"/>
+    </LinearLayout>
+    <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:text="@string/save"
+            android:layout_gravity="fill"
+            android:layout_columnSpan="3"/>
+</GridLayout>

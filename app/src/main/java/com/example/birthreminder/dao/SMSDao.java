@@ -9,7 +9,7 @@ import java.util.List;
 @Dao
 public interface SMSDao {
     @Insert
-    void insert(SMS sms);
+    long insert(SMS sms);
 
     @Update
     void update(SMS sms);

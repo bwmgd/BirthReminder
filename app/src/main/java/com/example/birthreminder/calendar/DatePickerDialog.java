@@ -8,12 +8,10 @@ import cn.carbs.android.gregorianlunarcalendar.library.data.ChineseCalendar;
 import cn.carbs.android.gregorianlunarcalendar.library.view.GregorianLunarCalendarView;
 import cn.carbs.android.indicatorview.library.IndicatorView;
 import com.example.birthreminder.R;
+import com.haibin.calendarview.LunarUtil;
 
+import java.util.Arrays;
 import java.util.Calendar;
-
-/**
- * Created by carbs on 2016/7/12.
- */
 
 public class DatePickerDialog extends Dialog {
 
@@ -37,40 +35,44 @@ public class DatePickerDialog extends Dialog {
         IndicatorView mIndicatorView = this.findViewById(R.id.indicator_view);
         mIndicatorView.setOnIndicatorChangedListener((oldSelectedIndex, newSelectedIndex) -> {
             isLunar = newSelectedIndex == 1;
-            if (newSelectedIndex == 0) toGregorianMode();
-            else toLunarMode();
+            if (newSelectedIndex == 0) mCalendarView.toGregorianMode();
+            else mCalendarView.toLunarMode();
         });
 
         this.findViewById(R.id.button_get_data).setOnClickListener(v -> {
-
             GregorianLunarCalendarView.CalendarData calendarData = mCalendarView.getCalendarData();
             Calendar calendar = calendarData.getCalendar();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH) + 1;
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-            String showStr = "Gregorian : " + year + "-"
-                    + month + "-" + day + "\n"
-                    + "Lunar     : " + calendar.get(ChineseCalendar.CHINESE_YEAR) + "-"
-                    + (calendar.get(ChineseCalendar.CHINESE_MONTH)) + "-"
-                    + calendar.get(ChineseCalendar.CHINESE_DATE);
+            int lunarYear = calendar.get(ChineseCalendar.CHINESE_YEAR);
+            int lunarMonth = calendar.get(ChineseCalendar.CHINESE_MONTH);
+            int lunarDay = calendar.get(ChineseCalendar.CHINESE_DATE);
+            String showStr = "Gregorian : " + year + "-" + month + "-" + day + "\n"
+                    + "Lunar     : " + lunarYear + "-" + lunarMonth + "-" + lunarDay;
             Log.v("Date", showStr);
-            if (onDatePickListener != null) onDatePickListener.onButtonClick(year, month, day, isLunar);
+            Log.v("lunarDate", Arrays.toString(
+                    LunarUtil.lunarToSolar(lunarYear, lunarMonth, lunarDay, lunarMonth < 0)));
+            if (onDatePickListener != null) {
+                onDatePickListener.onDatePick(year, month, day, lunarYear, lunarMonth, lunarDay, isLunar);
+            }
         });
-        mCalendarView.init();
-        if (isLunar) toLunarMode();
-        else toGregorianMode();
         this.setCanceledOnTouchOutside(true);
     }
 
-    private void toGregorianMode() {
-        mCalendarView.toGregorianMode();
+    public void init(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        mCalendarView.init(calendar);
+        if (isLunar) mCalendarView.toLunarMode();
+        else mCalendarView.toGregorianMode();
     }
 
-    private void toLunarMode() {
-        mCalendarView.toLunarMode();
+    public void setLunar(boolean lunar) {
+        isLunar = lunar;
     }
 
     public interface OnDatePickListener {
-        void onButtonClick(int year, int month, int day, boolean isLunar);
+        void onDatePick(int year, int month, int day, int lunarYear, int lunarMonth, int lunarDay, boolean isLunar);
     }
 }

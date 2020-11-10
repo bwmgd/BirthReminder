@@ -12,8 +12,8 @@ public class BirthDate implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    private String date;
-    private long nameId;
-    private int color;
-    private String text;
+    private int year;
+    private int month;
+    private int day;
+    private long peopleId;
 }

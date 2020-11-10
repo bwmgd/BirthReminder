@@ -2,14 +2,13 @@ package com.example.birthreminder.dao;
 
 import androidx.room.*;
 import com.example.birthreminder.entity.People;
-import com.example.birthreminder.entity.Relations;
 
 import java.util.List;
 
 @Dao
 public interface PeopleDao {
     @Insert
-    void insert(People people);
+    long insert(People people);
 
     @Update
     void update(People people);
@@ -17,7 +16,17 @@ public interface PeopleDao {
     @Delete
     void delete(People people);
 
+    @Query("select * from peoples where id = :id")
+    People getPeopleById(long id);
+
+    @Query("select * from peoples")
+    List<People> getAllPeople();
+
     @Transaction
     @Query("select * from peoples")
-    List<Relations.PeopleWithBirthDate> getPeopleWithBirthDates();
+    List<People.PeopleWithBirthDates> getPeopleWithBirthDates();
+
+    @Transaction
+    @Query("select * from peoples where id = :peopleId")
+    People.PeopleWithBirthDates getBirthDatesById(long peopleId);
 }

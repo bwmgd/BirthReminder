@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="wrap_content"
+        android:padding="2dp"
+        android:background="@drawable/shape_round_corner"
+        android:layout_height="wrap_content" android:orientation="vertical">
+
+    <TextView
+            android:text="@string/_2_29_n"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="18sp"
+            android:gravity="center"/>
+    <TextView
+            android:text="@string/lunar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:textSize="18sp"
+            android:gravity="center"/>
+    <Button
+            android:text="@string/_2_29"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:id="@+id/button_2_29" android:layout_weight="1"
+            android:gravity="center"/>
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <Button
+                android:text="@string/_2_28"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/button_2_28" android:layout_weight="1"
+                tools:ignore="ButtonStyle"/>
+        <Button
+                android:text="@string/_3_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/button_3_1" android:layout_weight="1"
+                tools:ignore="ButtonStyle"/>
+    </TableRow>
+</TableLayout>

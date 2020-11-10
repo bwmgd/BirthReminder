@@ -10,7 +10,6 @@
         android:fitsSystemWindows="true"
         tools:context=".MainActivity"
         tools:ignore="RtlHardcoded,HardcodedText,RtlSymmetry,SmallSp">
-
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -24,10 +23,19 @@
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0">
     </androidx.appcompat.widget.Toolbar>
 
-    <fragment
-            android:layout_width="match_parent" android:layout_height="match_parent"
-            android:name="com.example.birthreminder.calendar.CalendarFragment"
-            tools:layout="@layout/fragment_calendar" android:id="@+id/calendar"
-            android:layout_marginTop="?attr/actionBarSize"/>
+    <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:fitsSystemWindows="true">
+        <include layout="@layout/calendar_main"/>
 
+        <LinearLayout
+                android:layout_gravity="start"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <include layout="@layout/nav_main"/>
+        </LinearLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

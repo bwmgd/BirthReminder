@@ -1,8 +1,8 @@
 package com.example.birthreminder.ui.scheme;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +20,7 @@ import com.example.birthreminder.entity.BirthDate;
 import com.example.birthreminder.entity.People;
 import com.example.birthreminder.entity.Reminder;
 import com.example.birthreminder.entity.SMS;
+import com.example.birthreminder.ui.main.MainActivity;
 import com.example.birthreminder.util.BirthUtil;
 
 import java.util.ArrayList;
@@ -114,17 +115,12 @@ public class SchemeActivity extends AppCompatActivity implements DialogInterface
         new Thread(this::getSMS).start();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-            startActivity(getParentActivityIntent().putExtra(BirthApplication.PEOPLE, people));
-        return super.onKeyDown(keyCode, event);
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            startActivity(getParentActivityIntent().putExtra(BirthApplication.PEOPLE, people));
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
         return false;
     }
 }

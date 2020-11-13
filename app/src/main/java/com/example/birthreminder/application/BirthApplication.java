@@ -12,6 +12,7 @@ public class BirthApplication extends Application {
     public static final String PHONE = "phone";
     public static final String MESSAGE = "message";
     public static final String DATE = "date";
+    public static final int PEOPLE_REQUEST_CODE = 2;
 
     @SuppressLint("StaticFieldLeak")
     private static Context context;

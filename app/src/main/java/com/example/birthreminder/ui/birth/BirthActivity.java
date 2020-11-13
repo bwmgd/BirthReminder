@@ -124,7 +124,7 @@ public class BirthActivity extends AppCompatActivity implements AddPeopleDialog.
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-            onOptionsItemSelected(findViewById(R.id.home));
+            startActivity(new Intent(this, MainActivity.class));
         return super.onKeyDown(keyCode, event);
     }
 }

@@ -13,9 +13,7 @@ public class Reminder implements Serializable {
     private long id;
 
     private long birthDateId;
-    private String content;
-    private int beforeMonth;
-    private int beforeDay;
-    private int remindHour;
-    private int remindMinute;
+    private long peopleId;
+    private String content = "";
+    private int beforeDay = 0;
 }

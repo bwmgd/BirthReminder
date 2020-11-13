@@ -1,4 +1,4 @@
-package com.example.birthreminder.calendar;
+package com.example.birthreminder.ui.main;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -34,9 +34,8 @@ public class DatePickerDialog extends Dialog {
         mCalendarView = this.findViewById(R.id.calendar_view);
         IndicatorView mIndicatorView = this.findViewById(R.id.indicator_view);
         mIndicatorView.setOnIndicatorChangedListener((oldSelectedIndex, newSelectedIndex) -> {
-            isLunar = newSelectedIndex == 1;
-            if (newSelectedIndex == 0) mCalendarView.toGregorianMode();
-            else mCalendarView.toLunarMode();
+            if (isLunar = newSelectedIndex == 1) mCalendarView.toLunarMode();
+            else mCalendarView.toGregorianMode();
         });
 
         this.findViewById(R.id.button_get_data).setOnClickListener(v -> {

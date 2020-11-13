@@ -1,26 +1,32 @@
-package com.example.birthreminder.calendar;
+package com.example.birthreminder.ui.calendar;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-
 import com.haibin.calendarview.Calendar;
-import com.haibin.calendarview.WeekView;
+import com.haibin.calendarview.MonthView;
 
 /**
- * 魅族周视图
- * Created by huanghaibin on 2017/11/29.
+ * 高仿魅族日历布局
+ * Created by huanghaibin on 2017/11/15.
  */
 
-public class MyWeekView extends WeekView {
+public class MyMonthView extends MonthView {
+
+    /**
+     * 自定义魅族标记的文本画笔
+     */
     private final Paint mTextPaint = new Paint();
 
+    /**
+     * 自定义魅族标记的圆形背景
+     */
     private final Paint mSchemeBasicPaint = new Paint();
     private final float mRadio;
     private final int mPadding;
     private final float mSchemeBaseLine;
 
-    public MyWeekView(Context context) {
+    public MyMonthView(Context context) {
         super(context);
 
         mTextPaint.setTextSize(dipToPx(context, 8));
@@ -31,7 +37,6 @@ public class MyWeekView extends WeekView {
         mSchemeBasicPaint.setAntiAlias(true);
         mSchemeBasicPaint.setStyle(Paint.Style.FILL);
         mSchemeBasicPaint.setTextAlign(Paint.Align.CENTER);
-        mSchemeBasicPaint.setColor(0xffed5353);
         mSchemeBasicPaint.setFakeBoldText(true);
         mRadio = dipToPx(getContext(), 7);
         mPadding = dipToPx(getContext(), 4);
@@ -40,56 +45,77 @@ public class MyWeekView extends WeekView {
     }
 
     /**
+     * 绘制选中的日子
+     *
      * @param canvas    canvas
      * @param calendar  日历日历calendar
      * @param x         日历Card x起点坐标
+     * @param y         日历Card y起点坐标
      * @param hasScheme hasScheme 非标记的日期
      * @return true 则绘制onDrawScheme，因为这里背景色不是是互斥的
      */
     @Override
-    protected boolean onDrawSelected(Canvas canvas, Calendar calendar, int x, boolean hasScheme) {
+    protected boolean onDrawSelected(Canvas canvas, Calendar calendar, int x, int y, boolean hasScheme) {
         mSelectedPaint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(x + mPadding, mPadding, x + mItemWidth - mPadding, mItemHeight - mPadding, mSelectedPaint);
+        canvas.drawRect(x + mPadding, y + mPadding, x + mItemWidth - mPadding, y + mItemHeight - mPadding, mSelectedPaint);
         return true;
     }
 
+    /**
+     * 绘制标记的事件日子
+     *
+     * @param canvas   canvas
+     * @param calendar 日历calendar
+     * @param x        日历Card x起点坐标
+     * @param y        日历Card y起点坐标
+     */
     @Override
-    protected void onDrawScheme(Canvas canvas, Calendar calendar, int x) {
+    protected void onDrawScheme(Canvas canvas, Calendar calendar, int x, int y) {
         mSchemeBasicPaint.setColor(calendar.getSchemeColor());
 
-        canvas.drawCircle(x + mItemWidth - mPadding - mRadio / 2, mPadding + mRadio, mRadio, mSchemeBasicPaint);
+        canvas.drawCircle(x + mItemWidth - mPadding - mRadio / 2, y + mPadding + mRadio, mRadio, mSchemeBasicPaint);
 
         canvas.drawText(calendar.getScheme(),
                 x + mItemWidth - mPadding - mRadio / 2 - getTextWidth(calendar.getScheme()) / 2,
-                mPadding + mSchemeBaseLine, mTextPaint);
+                y + mPadding + mSchemeBaseLine, mTextPaint);
     }
 
     private float getTextWidth(String text) {
         return mTextPaint.measureText(text);
     }
 
+    /**
+     * 绘制文本
+     *
+     * @param canvas     canvas
+     * @param calendar   日历calendar
+     * @param x          日历Card x起点坐标
+     * @param y          日历Card y起点坐标
+     * @param hasScheme  是否是标记的日期
+     * @param isSelected 是否选中
+     */
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     @Override
-    protected void onDrawText(Canvas canvas, Calendar calendar, int x, boolean hasScheme, boolean isSelected) {
+    protected void onDrawText(Canvas canvas, Calendar calendar, int x, int y, boolean hasScheme, boolean isSelected) {
         int cx = x + mItemWidth / 2;
-        int top = -mItemHeight / 6;
+        int top = y - mItemHeight / 6;
 
         boolean isInRange = isInRange(calendar);
 
         if (isSelected) {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     mSelectTextPaint);
-            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10, mSelectedLunarTextPaint);
+            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + y + mItemHeight / 10, mSelectedLunarTextPaint);
         } else if (hasScheme) {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     calendar.isCurrentMonth() && isInRange ? mSchemeTextPaint : mOtherMonthTextPaint);
 
-            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10, mCurMonthLunarTextPaint);
+            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + y + mItemHeight / 10, mCurMonthLunarTextPaint);
         } else {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
-                    calendar.isCurrentDay() && isInRange ? mCurDayTextPaint :
+                    calendar.isCurrentDay() ? mCurDayTextPaint :
                             calendar.isCurrentMonth() && isInRange ? mCurMonthTextPaint : mOtherMonthTextPaint);
-            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + mItemHeight / 10,
+            canvas.drawText(calendar.getLunar(), cx, mTextBaseLine + y + mItemHeight / 10,
                     calendar.isCurrentDay() && isInRange ? mCurDayLunarTextPaint :
                             calendar.isCurrentMonth() ? mCurMonthLunarTextPaint : mOtherMonthLunarTextPaint);
         }

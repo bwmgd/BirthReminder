@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
-            android:name=".BirthApplication"
+            android:name=".application.BirthApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -14,17 +14,19 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             tools:ignore="AllowBackup">
-        <activity android:name=".SchemeActivity">
-        </activity>
-        <activity android:name=".PeopleActivity">
+        <activity android:name=".ui.scheme.SchemeActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MainActivity"/>
+                    android:value=".ui.birth.BirthActivity"/>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.birth.BirthActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".ui.main.MainActivity"/>
+        </activity>
+        <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

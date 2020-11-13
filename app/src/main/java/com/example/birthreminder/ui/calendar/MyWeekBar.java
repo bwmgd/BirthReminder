@@ -1,4 +1,4 @@
-package com.example.birthreminder.calendar;
+package com.example.birthreminder.ui.calendar;
 
 import android.content.Context;
 import android.graphics.Color;

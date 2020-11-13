@@ -19,7 +19,9 @@
     <Button
             android:text="@string/_2_29"
             android:layout_width="match_parent"
-            android:layout_height="0dp" android:id="@+id/button_2_29" android:layout_weight="1"
+            android:layout_height="0dp"
+            android:id="@+id/button_2_29"
+            android:layout_weight="1"
             android:gravity="center"/>
     <TableRow
             android:layout_width="match_parent"

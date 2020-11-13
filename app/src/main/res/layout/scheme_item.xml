@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/shape_round_corner"
+              android:orientation="vertical">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:paddingHorizontal="16dp">
+        <com.camerash.toggleedittextview.ToggleEditButton
+                android:id="@+id/toggleEditButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:teb_animationOffset="100"
+                app:teb_edit="false"
+                android:layout_gravity="start|center_vertical"
+                app:teb_tint="@color/colorGregorian"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+            <TextView
+                    android:text="@string/before"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            <com.camerash.toggleedittextview.ToggleEditTextView
+                    android:id="@+id/beforeDaysText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="0"
+                    android:maxLines="1"
+                    app:tetv_textViewColor="#000000"
+                    app:tetv_editTextViewColor="#000000"
+                    app:tetv_editTextBottomLineColor="@color/colorAccent"
+                    tools:ignore="HardcodedText"
+                    android:textSize="14sp"
+                    android:inputType="number"
+                    android:layout_gravity="center"/>
+            <TextView
+                    android:text="@string/day"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" android:layout_weight="1"
+                    android:textColor="#000000" android:textSize="14sp" android:layout_gravity="center"
+                    android:gravity="center"/>
+        </LinearLayout>
+
+        <ImageView
+                android:layout_gravity="center_vertical|end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_delete"
+                android:layout_weight="1"
+                android:id="@+id/deleteButton"
+                tools:ignore="ContentDescription"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.camerash.toggleedittextview.ToggleEditTextView
+            android:id="@+id/contentText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/reminder"
+            android:minLines="3"
+            android:maxLines="5"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            app:tetv_textViewColor="@color/colorPrimary"
+            app:tetv_editTextViewColor="@color/colorPrimaryDark"
+            app:tetv_editTextBottomLineColor="@color/colorAccent"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_round_corner_bottom"/>
+</LinearLayout>

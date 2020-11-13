@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="Android SQLite" uuid="e7990a4a-1e1a-4b15-a235-2acd5c31ea24">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\19711\AppData\Local\JetBrains\IntelliJIdea2020.2\android\databases\SERIAL_NUMBER_60ded0a7\com.example.birthreminder\internal\BirthReminder.db</jdbc-url>
+    </data-source>
+  </component>
+</project>

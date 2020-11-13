@@ -1,4 +1,4 @@
-package com.example.birthreminder;
+package com.example.birthreminder.ui.birth;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.birthreminder.R;
+import com.example.birthreminder.application.BirthApplication;
 import com.example.birthreminder.entity.BirthDate;
 import com.example.birthreminder.entity.People;
+import com.example.birthreminder.ui.scheme.SchemeActivity;
+import com.example.birthreminder.util.BirthUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -42,35 +46,40 @@ public class BirthAdapter extends RecyclerView.Adapter<BirthAdapter.BirthHolder>
     @Override
     public BirthHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.birth_info_item, parent, false);
+                .inflate(R.layout.birth_item, parent, false);
         return new BirthHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NotNull final BirthHolder holder, int position) {
+        People people;
+        BirthDate birthDate;
         if (mValues == null) {
-            holder.people = people;
-            holder.birthDate = birthDates.get(position);
+            people = this.people;
+            birthDate = birthDates.get(position);
         }
         else {
-            holder.people = (People) mValues.get(position).get("people");
-            holder.birthDate = (BirthDate) mValues.get(position).get("birth");
+            people = (People) mValues.get(position).get(BirthApplication.PEOPLE);
+            birthDate = (BirthDate) mValues.get(position).get(BirthApplication.BIRTH);
         }
-        holder.nameTextView.setText(holder.people.getName());
-        holder.nameTextView.setTextColor(holder.people.getColor());
-        int[] param = BirthUtil.diff(holder.birthDate.getYear(), holder.birthDate.getMonth(), holder.birthDate.getDay());
+        assert people != null;
+        holder.nameTextView.setText(people.getName());
+        holder.nameTextView.setTextColor(people.getColor());
+        assert birthDate != null;
+        int[] param = BirthUtil.diff(birthDate.getYear(), birthDate.getMonth(), birthDate.getDay());
         Log.v("holder", Arrays.toString(param));
-        holder.ageTextView.setText(String.valueOf(holder.birthDate.getYear() - holder.people.getYear()));
+        holder.ageTextView.setText(String.valueOf(
+                BirthUtil.diff(people.getYear(), people.getMonth(), people.getDay(),
+                        birthDate.getYear(), birthDate.getMonth(), birthDate.getDay())[0]));
         holder.alsoTextView.setText(param[3] < 0 ? "过了" : "还有");
         holder.yearTextView.setText(String.valueOf(param[0]));
         holder.monthTextView.setText(String.valueOf(param[1]));
         holder.dayTextView.setText(String.valueOf(param[2]));
         holder.itemView.setClickable(true);
         holder.itemView.setOnClickListener(v -> {
-            //TODO
             Intent intent = new Intent(mContext, SchemeActivity.class);
-            intent.putExtra("people", holder.people);
-            intent.putExtra("birth", holder.birthDate);
+            intent.putExtra(BirthApplication.PEOPLE, people);
+            intent.putExtra(BirthApplication.BIRTH, birthDate);
             mContext.startActivity(intent);
         });
     }
@@ -87,8 +96,6 @@ public class BirthAdapter extends RecyclerView.Adapter<BirthAdapter.BirthHolder>
         public final TextView yearTextView;
         public final TextView monthTextView;
         public final TextView dayTextView;
-        public BirthDate birthDate;
-        public People people;
 
         public BirthHolder(@NonNull View itemView) {
             super(itemView);

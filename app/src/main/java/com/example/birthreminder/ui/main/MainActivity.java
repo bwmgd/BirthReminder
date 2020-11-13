@@ -1,4 +1,4 @@
-package com.example.birthreminder;
+package com.example.birthreminder.ui.main;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.birthreminder.calendar.AddPeopleDialog;
-import com.example.birthreminder.calendar.DatePickerDialog;
+import com.example.birthreminder.R;
+import com.example.birthreminder.application.BirthApplication;
 import com.example.birthreminder.dao.AppDatabase;
-import com.example.birthreminder.dao.BirthDateDao;
 import com.example.birthreminder.dao.PeopleDao;
 import com.example.birthreminder.entity.BirthDate;
 import com.example.birthreminder.entity.People;
+import com.example.birthreminder.ui.birth.BirthAdapter;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 
@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements
     private int year;
     private int month;
     private int day;
+
+    List<People.PeopleWithBirthDates> peoples;
+    RecyclerView birthRecyclerView;
 
 
     @Override
@@ -85,12 +88,16 @@ public class MainActivity extends AppCompatActivity implements
         mTextMonthDay.setText(month + "月" + day + "日");
         mTextCurrentDay.setText(String.valueOf(mCalendarView.getCurDay()));
         mCalendarView.setRange(1901, 1, 1, 2100, 12, 30);
+
+        birthRecyclerView = findViewById(R.id.birthRecyclerView);
+        birthRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        birthRecyclerView.addItemDecoration(new DividerItemDecoration(this, OrientationHelper.VERTICAL));
     }
 
     private void initData() {
         new Thread(() -> {
             PeopleDao peopleDao = AppDatabase.getInstance(MainActivity.this).getPeopleDao();
-            List<People.PeopleWithBirthDates> peoples = peopleDao.getPeopleWithBirthDates();
+            peoples = peopleDao.getPeopleWithBirthDates();
 
             List<People> allPeople = new ArrayList<>();
             List<Map<String, Object>> list = new ArrayList<>();
@@ -107,24 +114,18 @@ public class MainActivity extends AppCompatActivity implements
                     calendar.setSchemeColor(people.getColor());
                     calendar.setScheme(people.getName().substring(0, 1));
                     map.put(calendar.toString(), calendar);
-                    if (birthDate.getYear() == year && birthDate.getMonth() == month) {
-                        Map<String, Object> objectMap = new HashMap<>();
-                        objectMap.put("people", people);
-                        objectMap.put("birth", birthDate);
-                        list.add(objectMap);
-                    }
+                    getBirthMonthList(list, people, birthDate);
                 }
             }
-            RecyclerView recyclerView = findViewById(R.id.peopleList);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(new PeopleAdapter(allPeople, this));
-            recyclerView.addItemDecoration(new DividerItemDecoration(this, OrientationHelper.VERTICAL));
+            runOnUiThread(() -> {
+                RecyclerView recyclerView = findViewById(R.id.peopleList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.setAdapter(new PeopleAdapter(allPeople, this));
+                recyclerView.addItemDecoration(new DividerItemDecoration(this, OrientationHelper.VERTICAL));
 
-            mCalendarView.setSchemeDate(map);
-            RecyclerView birthRecyclerView = findViewById(R.id.birthRecyclerView);
-            birthRecyclerView.setAdapter(new BirthAdapter(list, MainActivity.this));
-            birthRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            birthRecyclerView.addItemDecoration(new DividerItemDecoration(this, OrientationHelper.VERTICAL));
+                mCalendarView.setSchemeDate(map);
+                birthRecyclerView.setAdapter(new BirthAdapter(list, MainActivity.this));
+            });
         }).start();
     }
 
@@ -138,25 +139,31 @@ public class MainActivity extends AppCompatActivity implements
         year = calendar.getYear();
         if (month != calendar.getMonth()) {
             month = calendar.getMonth();
-            new Thread(() -> {
+            if (peoples != null) {
                 List<Map<String, Object>> list = new ArrayList<>();
-                BirthDateDao birthDateDao = AppDatabase.getInstance(this).getBirthDateDao();
-                PeopleDao peopleDao = AppDatabase.getInstance(this).getPeopleDao();
-                for (BirthDate birthDate : birthDateDao.getBirthDatesByMonth(year, month)) {
-                    Map<String, Object> objectMap = new HashMap<>();
-                    objectMap.put("people", peopleDao.getPeopleById(birthDate.getPeopleId()));
-                    objectMap.put("birth", birthDate);
-                    list.add(objectMap);
+                for (People.PeopleWithBirthDates peopleWithBirthDates : peoples) {
+                    People people = peopleWithBirthDates.people;
+                    for (BirthDate birthDate : peopleWithBirthDates.birthDates) {
+                        getBirthMonthList(list, people, birthDate);
+                    }
                 }
-                RecyclerView birthRecyclerView = findViewById(R.id.birthRecyclerView);
                 birthRecyclerView.setAdapter(new BirthAdapter(list, MainActivity.this));
-            }).start();
+            }
         }
         day = calendar.getDay();
         mTextMonthDay.setText(month + "月" + day + "日");
         mTextYear.setText(String.valueOf(year));
         mTextLunar.setText(calendar.getLunar());
         Log.v("onClick", String.valueOf(mCalendarView.getSelectedCalendar().getDay()));
+    }
+
+    private void getBirthMonthList(List<Map<String, Object>> list, People people, BirthDate birthDate) {
+        if (birthDate.getYear() == year && birthDate.getMonth() == month) {
+            Map<String, Object> objectMap = new HashMap<>();
+            objectMap.put(BirthApplication.PEOPLE, people);
+            objectMap.put(BirthApplication.BIRTH, birthDate);
+            list.add(objectMap);
+        }
     }
 
     @Override

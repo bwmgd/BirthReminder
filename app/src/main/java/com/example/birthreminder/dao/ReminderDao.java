@@ -16,6 +16,12 @@ public interface ReminderDao {
     @Delete
     void delete(Reminder reminder);
 
+    @Delete
+    void delete(List<Reminder> reminders);
+
+    @Query("delete from reminders where peopleId = :peopleId")
+    void deleteByPeopleId(long peopleId);
+
     @Query("select * from reminders where birthDateId = :birthDateId")
     List<Reminder> getRemindersFromDate(long birthDateId);
 }

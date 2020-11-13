@@ -8,7 +8,7 @@
         android:orientation="vertical"
         android:background="#ffffff"
         android:fitsSystemWindows="true"
-        tools:context=".MainActivity"
+        tools:context=".ui.main.MainActivity"
         tools:ignore="RtlHardcoded,HardcodedText,RtlSymmetry,SmallSp">
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

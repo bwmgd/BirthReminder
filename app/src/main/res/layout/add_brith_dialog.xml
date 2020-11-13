@@ -7,7 +7,7 @@
         android:background="@drawable/shape_round_corner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:context=".PeopleActivity"
+        tools:context=".ui.birth.BirthActivity"
         android:padding="10dp">
     <TextView
             android:text="@string/name"
@@ -74,7 +74,7 @@
                 tools:ignore="ContentDescription"/>
     </LinearLayout>
     <Button
-            android:id="@+id/button_save"
+            android:id="@+id/saveButton"
             android:layout_width="match_parent"
             android:text="@string/save"
             android:layout_gravity="fill"

@@ -30,5 +30,5 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ReminderDao getReminderDao();
 
-    public abstract SMSDao getSmsDao();
+    public abstract SMSDao getSMSDao();
 }

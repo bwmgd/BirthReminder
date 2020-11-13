@@ -1,4 +1,4 @@
-package com.example.birthreminder;
+package com.example.birthreminder.application;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -7,8 +7,12 @@ import android.content.Context;
 public class BirthApplication extends Application {
     public static final int CONTACT_REQUEST_CODE = 1;
 
-    public static final int DELETE_CODE = 1; //handler删除码
-    public static final int SWAP_CODE = 2; //交换码
+    public static final String PEOPLE = "people"; //intent传递码
+    public static final String BIRTH = "birth";
+    public static final String PHONE = "phone";
+    public static final String MESSAGE = "message";
+    public static final String DATE = "date";
+
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 

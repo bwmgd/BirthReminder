@@ -1,4 +1,4 @@
-package com.example.birthreminder;
+package com.example.birthreminder.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,19 +8,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.birthreminder.R;
+import com.example.birthreminder.application.BirthApplication;
 import com.example.birthreminder.entity.People;
+import com.example.birthreminder.ui.birth.BirthActivity;
+import com.example.birthreminder.util.BirthUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHolder> {
 
-    private final ArrayList<People> mValues;
+    private final List<People> mValues;
     private final Context mContext;
 
     public PeopleAdapter(List<People> mValues, Context mContext) {
-        this.mValues = (ArrayList<People>) mValues;
+        this.mValues = mValues;
         this.mContext = mContext;
     }
 
@@ -34,18 +37,18 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
 
     @Override
     public void onBindViewHolder(final PeopleHolder holder, int position) {
-        holder.people = mValues.get(position);
-        holder.nameTextView.setText(holder.people.getName());
-        holder.nameTextView.setTextColor(holder.people.getColor());
+        People people = mValues.get(position);
+        holder.nameTextView.setText(people.getName());
+        holder.nameTextView.setTextColor(people.getColor());
         holder.lunarTextView.setText(
-                holder.people.getBirthCode() < BirthUtil.SPECIAL_BIRTHDAY.LUNAR ? "公历" : "农历");
-        holder.yearTextView.setText(String.valueOf(holder.people.getYear()));
-        holder.monthTextView.setText(String.valueOf(holder.people.getMonth()));
-        holder.dayTextView.setText(String.valueOf(holder.people.getDay()));
+                people.getBirthCode() < BirthUtil.SPECIAL_BIRTHDAY.LUNAR ? "公历" : "农历");
+        holder.yearTextView.setText(String.valueOf(people.getYear()));
+        holder.monthTextView.setText(String.valueOf(people.getMonth()));
+        holder.dayTextView.setText(String.valueOf(people.getDay()));
         holder.itemView.setClickable(true);
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, PeopleActivity.class);
-            intent.putExtra("people", holder.people);
+            Intent intent = new Intent(mContext, BirthActivity.class);
+            intent.putExtra(BirthApplication.PEOPLE, people);
             mContext.startActivity(intent);
         });
     }
@@ -61,7 +64,6 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
         public final TextView yearTextView;
         public final TextView monthTextView;
         public final TextView dayTextView;
-        public People people;
 
         public PeopleHolder(@NonNull View itemView) {
             super(itemView);

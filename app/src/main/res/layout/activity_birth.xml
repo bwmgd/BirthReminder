@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".PeopleActivity" android:orientation="vertical">
+        tools:context=".ui.birth.BirthActivity" android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -14,10 +14,7 @@
             android:elevation="4dp"
             app:title="@string/app_name"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="编辑"
-                  android:textSize="16sp" android:padding="10dp" android:id="@+id/save"/>
-    </androidx.appcompat.widget.Toolbar>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <GridLayout
             android:elevation="10dp"
@@ -107,6 +104,6 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/birth_info_item"
+            tools:listitem="@layout/birth_item"
             android:layout_marginStart="10dp"/>
 </LinearLayout>

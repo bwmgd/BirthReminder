@@ -1,4 +1,4 @@
-package com.example.birthreminder;
+package com.example.birthreminder.util;
 
 import android.graphics.Color;
 import cn.carbs.android.gregorianlunarcalendar.library.util.Util;
@@ -57,7 +57,7 @@ public final class BirthUtil {
      * @param year 年份
      * @return 是否为公历闰年
      */
-    private static boolean isLeapYear(int year) {
+    public static boolean isLeapYear(int year) {
         return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
@@ -71,6 +71,10 @@ public final class BirthUtil {
         return diff(LocalDate.of(year, month, day), LocalDate.now());
     }
 
+    public static int[] diff(int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay) {
+        return diff(LocalDate.of(fromYear, fromMonth, fromDay), LocalDate.of(toYear, toMonth, toDay));
+    }
+
     /**
      * @param fromDate 起始日期
      * @param toDate   结束日期
@@ -82,10 +86,42 @@ public final class BirthUtil {
                 fromDate.compareTo(toDate)};
     }
 
+    /**
+     * 获取随机颜色
+     *
+     * @return 以下几种颜色中的一种
+     */
     public static int getRandomColor() {
         int[] colors = new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.CYAN, Color.MAGENTA};
         Random random = new Random();
         return colors[random.nextInt(colors.length)];
+    }
+
+    /**
+     * @param year    年
+     * @param month   月
+     * @param day     日
+     * @param isLunar 是否为阴历
+     * @return 格式化后的日期字符串
+     */
+    public static String formatDate(int year, int month, int day, boolean isLunar) {
+        if (isLunar) return formatLunarDate(year, month, day);
+        else return formatDate(year, month, day);
+    }
+
+    public static String formatDate(int year, int month, int day) {
+        return year + "-" + month + "-" + day;
+    }
+
+    public static String formatLunarDate(int year, int month, int day) {
+        return Util.getLunarNameOfYear(year) + "年"
+                + (month < 0 ? "闰" : "") + Util.getLunarNameOfMonth(Math.abs(month)) + "月"
+                + Util.getLunarNameOfDay(day);
+    }
+
+    public static String formatToLunarDate(int year, int month, int day) {
+        int[] ints = LunarUtil.solarToLunar(year, month, day);
+        return formatLunarDate(ints[0], ints[1], ints[2]);
     }
 
     /**

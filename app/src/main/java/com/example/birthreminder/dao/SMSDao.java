@@ -1,10 +1,7 @@
 package com.example.birthreminder.dao;
 
 import androidx.room.*;
-import com.example.birthreminder.entity.Reminder;
 import com.example.birthreminder.entity.SMS;
-
-import java.util.List;
 
 @Dao
 public interface SMSDao {
@@ -17,6 +14,9 @@ public interface SMSDao {
     @Delete
     void delete(SMS sms);
 
-    @Query("select * from reminders where birthDateId = :birthDateId")
-    List<Reminder> getSMSsFromDate(long birthDateId);
+    @Query("delete from sms where peopleId = :peopleId")
+    void deleteByPeopleId(long peopleId);
+
+    @Query("select * from sms where birthDateId = :birthDateId")
+    SMS getSMSFromDate(long birthDateId);
 }

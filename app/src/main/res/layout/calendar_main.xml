@@ -81,8 +81,8 @@
             android:orientation="vertical"
             android:background="#fff"
             app:default_status="expand"
-            android:layout_marginTop="52dp"
-    >
+            app:calendar_content_view_id="@+id/recyclerView"
+            android:layout_marginTop="52dp">
 
         <com.haibin.calendarview.CalendarView
                 android:id="@+id/calendarView"
@@ -100,8 +100,8 @@
                 app:scheme_text_color="#333"
                 app:scheme_theme_color="#128c4b"
                 app:selected_lunar_text_color="#CFCFCF"
-                app:month_view="com.example.birthreminder.calendar.MyMonthView"
-                app:week_view="com.example.birthreminder.calendar.MyWeekView"
+                app:month_view="com.example.birthreminder.ui.calendar.MyMonthView"
+                app:week_view="com.example.birthreminder.ui.calendar.MyWeekView"
                 app:selected_text_color="#333"
                 app:selected_theme_color="#80cfcfcf"
                 app:week_background="#fff"
@@ -123,18 +123,11 @@
                 android:layout_marginVertical="20dp"
                 tools:ignore="ContentDescription"/>
 
-
-        <!--        <TextView-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:gravity="center"-->
-        <!--                android:visibility="gone"-->
-        <!--                tools:text="没有人过生日呢\n点击此处或长按日期添加\n点击左上角的日期可以进行跳转"/>-->
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/birthRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/birth_info_item"
+                tools:listitem="@layout/birth_item"
                 android:layout_marginStart="10dp"/>
 
     </com.haibin.calendarview.CalendarLayout>

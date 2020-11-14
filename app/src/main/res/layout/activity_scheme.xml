@@ -179,7 +179,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/scheme_item"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp" android:paddingHorizontal="16dp"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addFab"
             android:layout_width="wrap_content"

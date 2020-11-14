@@ -6,6 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
+import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import com.example.birthreminder.R;
@@ -54,10 +55,8 @@ public class BirthApplication extends Application {
     }
 
     private void createWork() { //创建发送通知和发送短信的work
-
         PeriodicWorkRequest remindRequest = new PeriodicWorkRequest.Builder(MyWorker.class, 1, TimeUnit.DAYS).build();
         WorkManager workManager = WorkManager.getInstance(context);
-        workManager.cancelAllWork();
-        workManager.enqueue(remindRequest);
+        workManager.enqueueUniquePeriodicWork("remind", ExistingPeriodicWorkPolicy.KEEP, remindRequest);
     }
 }

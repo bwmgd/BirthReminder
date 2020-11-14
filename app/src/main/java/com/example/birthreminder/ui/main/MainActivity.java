@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements
                 R.string.app_name,
                 R.string.app_name
         );
-        drawerLayout.addDrawerListener(toggle);
+        drawerLayout.addDrawerListener(toggle); //添加侧边抽屉菜单按钮
         toggle.syncState();
 
 

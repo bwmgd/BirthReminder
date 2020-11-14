@@ -11,10 +11,10 @@ import java.io.Serializable;
 @Entity(tableName = "SMS", indices = {@Index(value = {"birthDateId"}, unique = true)})
 public class SMS implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private long id; //id
 
-    private long birthDateId;
-    private long peopleId;
-    private String massage;
-    private String phone;
+    private long birthDateId; //日期id
+    private long peopleId; //人物id
+    private String massage; //信息内容
+    private String phone; //电话
 }

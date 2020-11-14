@@ -10,10 +10,10 @@ import java.io.Serializable;
 @Entity(tableName = "birthDates")
 public class BirthDate implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private long id; //id
 
-    private int year;
-    private int month;
-    private int day;
-    private long peopleId;
+    private int year; //日期年
+    private int month; //日期月
+    private int day; //日期日
+    private long peopleId; //人物id
 }

@@ -16,16 +16,17 @@ public interface PeopleDao {
     @Delete
     void delete(People people);
 
-    @Query("select * from peoples where id = :id")
-    People getPeopleById(long id);
-
-    @Query("select * from peoples")
-    List<People> getAllPeople();
-
+    /**
+     * @return 全部人物及人物生日列表的列表
+     */
     @Transaction
     @Query("select * from peoples")
     List<People.PeopleWithBirthDates> getPeopleWithBirthDates();
 
+    /**
+     * @param peopleId 人物id
+     * @return 人物及人物生日列表
+     */
     @Transaction
     @Query("select * from peoples where id = :peopleId")
     People.PeopleWithBirthDates getBirthDatesById(long peopleId);

@@ -54,7 +54,7 @@ public class BirthAdapter extends RecyclerView.Adapter<BirthAdapter.BirthHolder>
     public void onBindViewHolder(@NotNull final BirthHolder holder, int position) {
         People people;
         BirthDate birthDate;
-        if (mValues == null) {
+        if (mValues == null) { //两种载入适配器的方式
             people = this.people;
             birthDate = birthDates.get(position);
         }
@@ -69,8 +69,8 @@ public class BirthAdapter extends RecyclerView.Adapter<BirthAdapter.BirthHolder>
         int[] param = BirthUtil.diff(birthDate.getYear(), birthDate.getMonth(), birthDate.getDay());
         Log.v("holder", Arrays.toString(param));
         holder.ageTextView.setText(String.valueOf(
-                BirthUtil.diff(people.getYear(), people.getMonth(), people.getDay(),
-                        birthDate.getYear(), birthDate.getMonth(), birthDate.getDay())[0]));
+                BirthUtil.getAge(people.getYear(), people.getMonth(), people.getDay(),
+                        birthDate.getYear(), birthDate.getMonth(), birthDate.getDay())));
         holder.alsoTextView.setText(param[3] < 0 ? "过了" : "还有");
         holder.yearTextView.setText(String.valueOf(param[0]));
         holder.monthTextView.setText(String.valueOf(param[1]));

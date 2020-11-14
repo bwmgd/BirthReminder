@@ -1,7 +1,6 @@
 package com.example.birthreminder.ui.scheme;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,10 @@ import com.example.birthreminder.dao.AppDatabase;
 import com.example.birthreminder.entity.Reminder;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.example.birthreminder.application.BirthApplication.getContext;
 
@@ -23,22 +25,24 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     private final List<Reminder> mValues;
     private final long birthID;
     private final long peopleID;
+    private final Map<Integer, ToggleEditButton> buttonMap;
     AppDatabase appDatabase;
 
     public ReminderAdapter(List<Reminder> mValues, long peopleID, long birthID) {
         this.mValues = mValues;
         this.birthID = birthID;
         this.peopleID = peopleID;
+        buttonMap = new HashMap<>();
         appDatabase = AppDatabase.getInstance(getContext());
     }
 
     public void addVoidItem() {
+        for (ToggleEditButton button : buttonMap.values()) if (button.getEditing()) button.performClick();
         Reminder reminder = new Reminder();
         reminder.setPeopleId(peopleID);
         reminder.setBirthDateId(birthID);
         mValues.add(reminder);
-        notifyItemInserted(getItemCount());
-        new Thread(() -> appDatabase.getReminderDao().insert(reminder)).start();
+        notifyItemInserted(getItemCount() - 1);
     }
 
     @NonNull
@@ -51,7 +55,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
     @Override
     public void onBindViewHolder(@NotNull ReminderAdapter.ReminderHolder holder, int position) {
-
         Reminder reminder = mValues.get(position);
         ToggleEditTextView beforeDaysText = holder.beforeDaysText;
         ToggleEditTextView contentText = holder.contentText;
@@ -60,7 +63,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         contentText.setText(reminder.getContent());
         saveButton.bind(beforeDaysText, contentText);
         saveButton.setOnClickListener(v -> {
-            Log.v("ETbt", String.valueOf(saveButton.getEditing()));
             if (!saveButton.getEditing()) {
                 String content = contentText.getText().trim();
                 int beforeDays;
@@ -69,16 +71,18 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
                 } catch (NumberFormatException e) {
                     beforeDays = 0;
                 }
-                if (beforeDays != reminder.getBeforeDay() || !content.equals(reminder.getContent())) {
-                    reminder.setBeforeDay(beforeDays);
-                    reminder.setContent(content);
-                    new Thread(() -> appDatabase.getReminderDao().update(reminder)).start();
-                }
+                reminder.setBeforeDay(beforeDays);
+                reminder.setContent(content);
             }
         });
         holder.imageView.setOnClickListener(v -> removeReminder(position, reminder));
+        buttonMap.put(position, saveButton);
+        if (reminder.getId() == 0) Objects.requireNonNull(buttonMap.get(position)).setEditing(true, true);
     }
 
+    public List<Reminder> getValues() {
+        return mValues;
+    }
 
     private void removeReminder(int position, Reminder reminder) {
         mValues.remove(position);
@@ -97,7 +101,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         public final ToggleEditTextView beforeDaysText;
         public final ToggleEditTextView contentText;
         public final ImageView imageView;
-
 
         public ReminderHolder(@NotNull View itemView) {
             super(itemView);

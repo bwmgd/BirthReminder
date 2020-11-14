@@ -62,6 +62,15 @@
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/bg_ripple">
 
+            <ImageView
+                    android:id="@+id/ib_calendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_calendar"
+                    app:tint="#000000"/>
+
             <TextView
                     android:id="@+id/tv_current_day"
                     android:layout_width="wrap_content"

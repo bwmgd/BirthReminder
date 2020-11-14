@@ -10,10 +10,10 @@ import java.io.Serializable;
 @Entity(tableName = "reminders")
 public class Reminder implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private long id; //id
 
-    private long birthDateId;
-    private long peopleId;
-    private String content = "";
-    private int beforeDay = 0;
+    private long birthDateId; //日期id
+    private long peopleId; //人物id
+    private String content = ""; //提醒内容
+    private int beforeDay = 0; //提前天数
 }

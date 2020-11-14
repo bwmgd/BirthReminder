@@ -23,7 +23,6 @@ import com.example.birthreminder.entity.SMS;
 import com.example.birthreminder.ui.main.MainActivity;
 import com.example.birthreminder.util.BirthUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,20 +92,23 @@ public class SchemeActivity extends AppCompatActivity implements DialogInterface
                 this, sms == null ? android.R.drawable.sym_action_email : android.R.drawable.sym_action_chat)));
         findViewById(R.id.bt_sms).setOnClickListener(v ->
         {
-            SMSDialog dialog = new SMSDialog(this, people, sms, birthDate.getId());
+            SMSDialog dialog = new SMSDialog(this, people, birthDate, sms);
             dialog.setOnDismissListener(this);
+            dialog.setOwnerActivity(this);
             dialog.show();
         });
     }
 
     @Override
     protected void onStop() {
-        List<Reminder> reminderList = new ArrayList<>(this.reminderList);
-        new Thread(() -> {
-            for (Reminder reminder : reminderList)
-                if (reminder.getContent().equals("") || reminder.getContent() == null)
-                    appDatabase.getReminderDao().delete(reminder);
-        }).start();
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        ReminderAdapter adapter = (ReminderAdapter) recyclerView.getAdapter();
+        assert adapter != null;
+        for (Reminder reminder : adapter.getValues())
+            new Thread(() -> {
+                if (!reminder.getContent().equals("") || !(reminder.getBeforeDay() == 0))
+                    appDatabase.getReminderDao().insert(reminder);
+            }).start();
         super.onStop();
     }
 

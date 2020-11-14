@@ -1,6 +1,5 @@
 package com.example.birthreminder.ui.main;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    @SuppressLint("SetTextI18n")
     protected void initView() {
         mTextMonthDay = findViewById(R.id.tv_month_day);
         mTextYear = findViewById(R.id.tv_year);
@@ -133,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onCalendarOutOfRange(Calendar calendar) {
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onCalendarSelect(Calendar calendar, boolean isClick) {
         year = calendar.getYear();
@@ -157,6 +154,13 @@ public class MainActivity extends AppCompatActivity implements
         Log.v("onClick", String.valueOf(mCalendarView.getSelectedCalendar().getDay()));
     }
 
+    /**
+     * 获取本月过生日的信息
+     *
+     * @param list      人与日期的 HasMap列表
+     * @param people    人物
+     * @param birthDate 日期
+     */
     private void getBirthMonthList(List<Map<String, Object>> list, People people, BirthDate birthDate) {
         if (birthDate.getYear() == year && birthDate.getMonth() == month) {
             Map<String, Object> objectMap = new HashMap<>();
@@ -181,17 +185,22 @@ public class MainActivity extends AppCompatActivity implements
         addPeopleDialog.setDate(year, month, day, false);
     }
 
+    /**
+     * 日期选择器选择日期后改变日历界面回调
+     */
     @Override
     public void onDatePick(int year, int month, int day, int lunarYear, int lunarMonth, int lunarDay, boolean isLunar) {
         mCalendarView.scrollToCalendar(year, month, day);
         datePicker.cancel();
     }
 
+    /**
+     * 添加人物弹窗的跳转到生日位置回调
+     */
     @Override
     public void onDatePicking(int year, int month, int day) {
         mCalendarView.scrollToCalendar(year, month, day);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {

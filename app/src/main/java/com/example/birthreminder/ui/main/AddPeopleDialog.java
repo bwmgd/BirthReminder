@@ -53,6 +53,12 @@ public class AddPeopleDialog extends Dialog implements
         super(context, R.style.dialog);
     }
 
+    /**
+     * 通过人物获取后续生日日期
+     *
+     * @param people 人物
+     * @return 日期列表
+     */
     private static List<BirthDate> getBirthDates(People people) {
         List<BirthDate> list = new ArrayList<>();
         for (int[] date : BirthUtil.calculateBirthday(
@@ -71,6 +77,10 @@ public class AddPeopleDialog extends Dialog implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_brith_dialog);
+        initView();
+    }
+
+    private void initView() {
         editTextPersonName = findViewById(R.id.editTextPersonName);
         editTextDate = findViewById(R.id.editTextDate);
         editTextDate.setFocusable(false);
@@ -85,7 +95,7 @@ public class AddPeopleDialog extends Dialog implements
         findViewById(R.id.saveButton).setOnClickListener(v -> save());
     }
 
-    private void save() {
+    private void save() { //人物保存
         name = editTextPersonName.getText().toString().trim();
         phone = editTextPhone.getText().toString().trim();
 
@@ -94,12 +104,15 @@ public class AddPeopleDialog extends Dialog implements
             return;
         }
 
-        if (month < 0) getLunarLeapDialog();
+        if (month < 0) getLunarLeapDialog(); //当生日为特殊生日时进行特殊生日弹窗
         else if (isLunar) getLunarDialog();
         else if (month == 2 && day == 29) getLeapDialog();
         else newPeople();
     }
 
+    /**
+     * 公历2月29生日弹窗
+     */
     private void getLeapDialog() {
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.leap_dialog);
@@ -121,6 +134,9 @@ public class AddPeopleDialog extends Dialog implements
         dialog.show();
     }
 
+    /**
+     * 农历生日弹窗
+     */
     private void getLunarDialog() {
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.lunar_dialog);
@@ -137,6 +153,9 @@ public class AddPeopleDialog extends Dialog implements
         dialog.show();
     }
 
+    /**
+     * 农历闰月生日弹窗
+     */
     private void getLunarLeapDialog() {
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.lunar_leap_dialog);
@@ -158,6 +177,9 @@ public class AddPeopleDialog extends Dialog implements
         dialog.show();
     }
 
+    /**
+     * 新人物插入
+     */
     private void newPeople() {
         People people = new People();
         people.setName(name);
@@ -203,6 +225,12 @@ public class AddPeopleDialog extends Dialog implements
         dismiss();
     }
 
+    /**
+     * 新生日日期插入
+     *
+     * @param people   人物
+     * @param database 数据库
+     */
     private void newBirthDates(People people, AppDatabase database) {
         BirthDateDao birthDateDao = database.getBirthDateDao();
         for (long i : birthDateDao.insert(getBirthDates(people))) {
@@ -217,6 +245,11 @@ public class AddPeopleDialog extends Dialog implements
         getOwnerActivity().startActivity(intent);
     }
 
+    /**
+     * 获取颜色弹窗
+     *
+     * @param v 弹窗按钮
+     */
     private void getColor(View v) {
         new ColorPickerPopup.Builder(getContext())
                 .initialColor(color) // Set initial color
@@ -236,6 +269,9 @@ public class AddPeopleDialog extends Dialog implements
                 });
     }
 
+    /**
+     * 从联系人中获取人物
+     */
     private void getPeople() {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -247,6 +283,9 @@ public class AddPeopleDialog extends Dialog implements
         getOwnerActivity().startActivityForResult(intent, BirthApplication.CONTACT_REQUEST_CODE);
     }
 
+    /**
+     * 用日期选择弹窗获取日期
+     */
     private void getDate() {
         if (datePicker == null) {
             datePicker = new DatePickerDialog(getContext());
@@ -257,6 +296,17 @@ public class AddPeopleDialog extends Dialog implements
         datePicker.init(year, month - 1, day);
     }
 
+    /**
+     * 日期选择事件回调
+     *
+     * @param year       公历年
+     * @param month      公历月
+     * @param day        公历日
+     * @param lunarYear  农历年
+     * @param lunarMonth 农历月
+     * @param lunarDay   农历日
+     * @param isLunar    是否为农历
+     */
     @Override
     public void onDatePick(int year, int month, int day, int lunarYear, int lunarMonth, int lunarDay, boolean isLunar) {
         if (isLunar) setDate(lunarYear, lunarMonth, lunarDay, true);
@@ -265,16 +315,12 @@ public class AddPeopleDialog extends Dialog implements
         datePicker.cancel();
     }
 
-    private String formatDate() {
-        return BirthUtil.formatDate(year, month, day, isLunar);
-    }
-
     public void setDate(int year, int month, int day, boolean isLunar) {
         this.year = year;
         this.month = month;
         this.day = day;
         this.isLunar = isLunar;
-        editTextDate.setText(formatDate());
+        editTextDate.setText(BirthUtil.formatDate(year, month, day, isLunar));
     }
 
     public void setName(String name) {
@@ -300,14 +346,20 @@ public class AddPeopleDialog extends Dialog implements
         this.updateListener = updateListener;
     }
 
+    /**
+     * 添加人物接口
+     */
     public interface AddPeopleListener {
         void onDatePicking(int year, int month, int day);
     }
 
+    /**
+     * 更新人物接口
+     */
     public interface UpdateListener {
-        long NONE = -1;
-        long NOT_BIRTH = 0;
-        long BIRTH = 1;
+        long NONE = -1; //不更新
+        long NOT_BIRTH = 0; //不更新生日
+        long BIRTH = 1; //更新全部
 
         long[] OnUpdateListener(People people);
     }

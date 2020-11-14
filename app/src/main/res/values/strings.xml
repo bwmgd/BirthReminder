@@ -35,6 +35,8 @@
     <string name="sms_info">短信信息</string>
     <string name="reminder">事件提醒</string>
     <string name="phoneNum">电话号码</string>
+    <string name="channel_name">生日提醒器</string>
+    <string name="channel_description">生日提醒通知</string>
     <string-array name="indicator_string_array">
         <item>公历</item>
         <item>农历</item>

@@ -71,8 +71,25 @@ public final class BirthUtil {
         return diff(LocalDate.of(year, month, day), LocalDate.now());
     }
 
+    /**
+     * @return 距离日期的差值 {@link #diff(LocalDate, LocalDate)}
+     */
     public static int[] diff(int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay) {
         return diff(LocalDate.of(fromYear, fromMonth, fromDay), LocalDate.of(toYear, toMonth, toDay));
+    }
+
+    /**
+     * @return 计算距今年龄
+     */
+    public static int getAge(int year, int month, int day) {
+        return diff(year, month, day)[0];
+    }
+
+    /**
+     * @return 计算距该日年龄
+     */
+    public static int getAge(int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay) {
+        return diff(fromYear, fromMonth, fromDay, toYear, toMonth, toDay)[0];
     }
 
     /**
@@ -98,9 +115,9 @@ public final class BirthUtil {
     }
 
     /**
-     * @param year    年
-     * @param month   月
-     * @param day     日
+     * @param year    公历年
+     * @param month   公历月
+     * @param day     公历日
      * @param isLunar 是否为阴历
      * @return 格式化后的日期字符串
      */
@@ -109,19 +126,59 @@ public final class BirthUtil {
         else return formatDate(year, month, day);
     }
 
+    /**
+     * @param year  公历年
+     * @param month 公历月
+     * @param day   公历日
+     * @return 公历格式化日期
+     */
+
     public static String formatDate(int year, int month, int day) {
         return year + "-" + month + "-" + day;
     }
 
+    /**
+     * @param year  农历年
+     * @param month 农历月
+     * @param day   农历日
+     * @return 农历格式化日期
+     */
     public static String formatLunarDate(int year, int month, int day) {
         return Util.getLunarNameOfYear(year) + "年"
                 + (month < 0 ? "闰" : "") + Util.getLunarNameOfMonth(Math.abs(month)) + "月"
                 + Util.getLunarNameOfDay(day);
     }
 
+    /**
+     * @param year  公历年
+     * @param month 公历月
+     * @param day   公历日
+     * @return 公历转农历格式化日期
+     */
     public static String formatToLunarDate(int year, int month, int day) {
         int[] ints = LunarUtil.solarToLunar(year, month, day);
         return formatLunarDate(ints[0], ints[1], ints[2]);
+    }
+
+    /**
+     * @param year  年
+     * @param month 月
+     * @param day   日
+     * @return 是否为今日
+     */
+    public static boolean isToday(int year, int month, int day) {
+        return LocalDate.of(year, month, day).equals(LocalDate.now());
+    }
+
+    /**
+     * @param year       年
+     * @param month      月
+     * @param day        日
+     * @param beforeDays 提前天数
+     * @return {@param beforeDays}天之后是否是为今天
+     */
+    public static boolean beforeDayIsToday(int year, int month, int day, int beforeDays) {
+        return LocalDate.of(year, month, day).plusDays(beforeDays).equals(LocalDate.now());
     }
 
     /**

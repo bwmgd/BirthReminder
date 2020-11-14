@@ -71,6 +71,9 @@ public class DatePickerDialog extends Dialog {
         isLunar = lunar;
     }
 
+    /**
+     * 获取日期后回调接口
+     */
     public interface OnDatePickListener {
         void onDatePick(int year, int month, int day, int lunarYear, int lunarMonth, int lunarDay, boolean isLunar);
     }

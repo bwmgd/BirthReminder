@@ -35,23 +35,11 @@ public class BirthActivity extends AppCompatActivity implements AddPeopleDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_birth);
 
-        setSupportActionBar(findViewById(R.id.toolbar));
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        initView();
+        initData();
+    }
 
-        people = (People) getIntent().getSerializableExtra(BirthApplication.PEOPLE);
-        Log.v("people", people.toString());
-
-        TextView nameTextView = findViewById(R.id.nameTextView);
-        nameTextView.setText(people.getName());
-        nameTextView.setTextColor(people.getColor());
-        ((TextView) findViewById(R.id.lunarTextView)).setText(
-                people.getBirthCode() < BirthUtil.SPECIAL_BIRTHDAY.LUNAR ? "公历" : "农历");
-        ((TextView) findViewById(R.id.yearTextView)).setText(String.valueOf(people.getYear()));
-        ((TextView) findViewById(R.id.monthTextView)).setText(String.valueOf(people.getMonth()));
-        ((TextView) findViewById(R.id.dayTextView)).setText(String.valueOf(people.getDay()));
-        ((TextView) findViewById(R.id.phoneTextView)).setText(people.getPhone());
-
+    private void initData() {
         new Thread(() -> {
             database = AppDatabase.getInstance(this);
             PeopleDao peopleDao = database.getPeopleDao();
@@ -72,6 +60,25 @@ public class BirthActivity extends AppCompatActivity implements AddPeopleDialog.
         }).start();
     }
 
+    private void initView() {
+        setSupportActionBar(findViewById(R.id.toolbar));
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        people = (People) getIntent().getSerializableExtra(BirthApplication.PEOPLE);
+        Log.v("people", people.toString());
+
+        TextView nameTextView = findViewById(R.id.nameTextView);
+        nameTextView.setText(people.getName());
+        nameTextView.setTextColor(people.getColor());
+        ((TextView) findViewById(R.id.lunarTextView)).setText(
+                people.getBirthCode() < BirthUtil.SPECIAL_BIRTHDAY.LUNAR ? "公历" : "农历");
+        ((TextView) findViewById(R.id.yearTextView)).setText(String.valueOf(people.getYear()));
+        ((TextView) findViewById(R.id.monthTextView)).setText(String.valueOf(people.getMonth()));
+        ((TextView) findViewById(R.id.dayTextView)).setText(String.valueOf(people.getDay()));
+        ((TextView) findViewById(R.id.phoneTextView)).setText(people.getPhone());
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,7 +90,7 @@ public class BirthActivity extends AppCompatActivity implements AddPeopleDialog.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.modify:
+            case R.id.modify: //修改人物
                 AddPeopleDialog dialog = new AddPeopleDialog(this);
                 dialog.show();
                 dialog.setOwnerActivity(this);
@@ -94,7 +101,7 @@ public class BirthActivity extends AppCompatActivity implements AddPeopleDialog.
                 dialog.setColor(people.getColor());
                 dialog.setUpdateListener(this);
                 break;
-            case R.id.delete:
+            case R.id.delete: //删除人物
                 new Thread(() -> {
                     BirthDateDao birthDateDao = database.getBirthDateDao();
                     birthDateDao.deleteByPeopleId(people.getId());
@@ -109,7 +116,7 @@ public class BirthActivity extends AppCompatActivity implements AddPeopleDialog.
     }
 
     @Override
-    public long[] OnUpdateListener(People people) {
+    public long[] OnUpdateListener(People people) { //更新人物的弹窗回调
         if (this.people.getYear() == people.getYear() &&
                 this.people.getMonth() == people.getMonth() &&
                 this.people.getDay() == people.getDay()) {

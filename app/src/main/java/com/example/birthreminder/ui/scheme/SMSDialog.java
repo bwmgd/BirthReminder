@@ -1,35 +1,46 @@
 package com.example.birthreminder.ui.scheme;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.example.birthreminder.R;
 import com.example.birthreminder.dao.AppDatabase;
+import com.example.birthreminder.entity.BirthDate;
 import com.example.birthreminder.entity.People;
 import com.example.birthreminder.entity.SMS;
 
 public class SMSDialog extends Dialog {
     private final People people;
-    private final long birthId;
+    private final BirthDate birthDate;
     private SMS sms;
 
 
-    public SMSDialog(@NonNull Context context, People people, SMS sms, long birthId) {
+    public SMSDialog(@NonNull Context context, People people, BirthDate birthDate, SMS sms) {
         super(context);
         this.people = people;
         this.sms = sms;
-        this.birthId = birthId;
+        this.birthDate = birthDate;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sms_dialog);
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getOwnerActivity(),
+                    new String[]{Manifest.permission.SEND_SMS}, 1);
+        }
+
         ((TextView) findViewById(R.id.nameTextView)).setText(people.getName());
         EditText phoneTextView = findViewById(R.id.phoneText);
         EditText massageTextView = findViewById(R.id.contentText);
@@ -45,11 +56,12 @@ public class SMSDialog extends Dialog {
             }
             if (sms == null) {
                 sms = new SMS();
-                sms.setBirthDateId(birthId);
+                sms.setBirthDateId(birthDate.getId());
                 sms.setPeopleId(people.getId());
                 sms.setMassage(massage);
                 sms.setPhone(phone);
                 new Thread(() -> appDatabase.getSMSDao().insert(sms)).start();
+
             }
             else if (!sms.getPhone().equals(phone) || sms.getMassage().equals(massage)) {
                 sms.setPhone(phone);

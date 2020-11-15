@@ -1,10 +1,8 @@
 package com.example.birthreminder.ui.main;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -14,8 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,28 +58,9 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sendSMS();
         initView();
         initData();
     }
-
-    private void sendSMS() {
-
-        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + "17600736674"));
-        intent.putExtra("sms_body", "测试用户生日快乐");
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, BirthApplication.CHANNEL_SMS_ID)
-                .setSmallIcon(R.mipmap.ic_calendar)
-                .setContentTitle("测试用户的18岁生日到了,点击此处发送送短信来祝福TA吧")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("测试用户生日快乐"))
-                .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(100000, builder.build());
-    }
-
 
     protected void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);

@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 recyclerView.setAdapter(new PeopleAdapter(allPeople, this));
                 recyclerView.addItemDecoration(new DividerItemDecoration(this, OrientationHelper.VERTICAL));
-
                 mCalendarView.setSchemeDate(map);
                 birthRecyclerView.setAdapter(new BirthAdapter(list, MainActivity.this));
             });

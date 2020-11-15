@@ -122,9 +122,7 @@ public class SchemeActivity extends AppCompatActivity implements DialogInterface
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(this, MainActivity.class));
-        }
+        startActivity(new Intent(this, MainActivity.class));
         return false;
     }
 }

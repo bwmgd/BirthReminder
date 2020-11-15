@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements
         drawerLayout.addDrawerListener(toggle); //添加侧边抽屉菜单按钮
         toggle.syncState();
 
-
         mTextMonthDay = findViewById(R.id.tv_month_day);
         mTextYear = findViewById(R.id.tv_year);
         mTextLunar = findViewById(R.id.tv_lunar);
@@ -93,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements
             datePicker.show();
             datePicker.init(year, month - 1, day);
         });
+
         findViewById(R.id.fl_current).setOnClickListener(v -> mCalendarView.scrollToCurrent());
         mCalendarView.setOnCalendarSelectListener(this);
         mCalendarView.setOnCalendarLongClickListener(this);

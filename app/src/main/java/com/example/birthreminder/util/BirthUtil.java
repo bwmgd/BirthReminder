@@ -7,6 +7,7 @@ import com.haibin.calendarview.LunarUtil;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -107,7 +108,12 @@ public final class BirthUtil {
      * @return 计算距今年龄
      */
     public static int getAge(int year, int month, int day, boolean isLunar) {
-        return diff(year, month, day, isLunar)[0];
+        Calendar calendar = Calendar.getInstance();
+        int toYear = calendar.get(Calendar.YEAR);
+        int toMonth = calendar.get(Calendar.MONTH) + 1;
+        int toDay = calendar.get(Calendar.DATE);
+
+        return getAge(year, month, day, toYear, toMonth, toDay, isLunar);
     }
 
     /**
@@ -115,7 +121,8 @@ public final class BirthUtil {
      */
     public static int getAge(int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay,
                              boolean isLunar) {
-        return diff(fromYear, fromMonth, fromDay, toYear, toMonth, toDay, isLunar)[0];
+        if (isLunar) return LunarUtil.solarToLunar(toYear, toMonth, toDay)[0] - fromYear;
+        return diff(fromYear, fromMonth, fromDay, toYear, toMonth, toDay, false)[0];
     }
 
     /**

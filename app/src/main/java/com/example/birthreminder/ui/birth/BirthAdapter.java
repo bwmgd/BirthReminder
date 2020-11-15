@@ -86,7 +86,7 @@ public class BirthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             holder.alsoTextView.setText(param[3] < 0 ? "过了" : "还有");
             holder.yearTextView.setText(String.valueOf(param[0]));
             int month = people.getMonth();
-            holder.monthTextView.setText(month < 0 ? "闰" + month : String.valueOf(month));
+            holder.monthTextView.setText(month < 0 ? "闰" + -month : String.valueOf(month));
             holder.dayTextView.setText(String.valueOf(param[2]));
             holder.itemView.setClickable(true);
             holder.itemView.setOnClickListener(v -> {

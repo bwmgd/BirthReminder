@@ -75,7 +75,7 @@ public class BirthActivity extends AppCompatActivity implements AddPeopleDialog.
                 people.getBirthCode() < BirthUtil.SPECIAL_BIRTHDAY.LUNAR ? "公历" : "农历");
         ((TextView) findViewById(R.id.yearTextView)).setText(String.valueOf(people.getYear()));
         int month = people.getMonth();
-        ((TextView) findViewById(R.id.monthTextView)).setText(month < 0 ? "闰" + month : String.valueOf(month));
+        ((TextView) findViewById(R.id.monthTextView)).setText(month < 0 ? "闰" + -month : String.valueOf(month));
         ((TextView) findViewById(R.id.dayTextView)).setText(String.valueOf(people.getDay()));
         ((TextView) findViewById(R.id.phoneTextView)).setText(people.getPhone());
     }

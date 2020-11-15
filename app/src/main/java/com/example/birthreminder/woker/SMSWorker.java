@@ -42,7 +42,7 @@ public class SMSWorker extends Worker {
         return Result.success();
     }
 
-    public void sendSMS(People people, SMS sms) {
+    private void sendSMS(People people, SMS sms) {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + sms.getPhone()));
         intent.putExtra("sms_body", sms.getMassage());

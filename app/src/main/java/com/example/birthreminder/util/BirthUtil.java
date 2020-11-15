@@ -61,35 +61,61 @@ public final class BirthUtil {
         return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
+
+    /**
+     * @param year    年
+     * @param month   月
+     * @param day     日
+     * @param isLunar 是否为闰年
+     * @return 距离今日的差值 {@link #diff(LocalDate, LocalDate)}
+     */
+    public static int[] diff(int year, int month, int day, boolean isLunar) {
+        if (isLunar) {
+            int[] ints = LunarUtil.lunarToSolar(year, month, day, month < 0);
+            year = ints[0];
+            month = ints[1];
+            day = ints[2];
+        }
+        return diff(year, month, day);
+    }
+
     /**
      * @param year  年
      * @param month 月
      * @param day   日
      * @return 距离今日的差值 {@link #diff(LocalDate, LocalDate)}
      */
-    public static int[] diff(int year, int month, int day) {
+    private static int[] diff(int year, int month, int day) {
         return diff(LocalDate.of(year, month, day), LocalDate.now());
     }
 
     /**
      * @return 距离日期的差值 {@link #diff(LocalDate, LocalDate)}
      */
-    public static int[] diff(int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay) {
+    public static int[] diff(int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay,
+                             boolean isLunar) {
+        if (isLunar) {
+            int[] ints = LunarUtil.lunarToSolar(fromYear, fromMonth, fromDay, fromMonth < 0);
+            fromYear = ints[0];
+            fromMonth = ints[1];
+            fromDay = ints[2];
+        }
         return diff(LocalDate.of(fromYear, fromMonth, fromDay), LocalDate.of(toYear, toMonth, toDay));
     }
 
     /**
      * @return 计算距今年龄
      */
-    public static int getAge(int year, int month, int day) {
-        return diff(year, month, day)[0];
+    public static int getAge(int year, int month, int day, boolean isLunar) {
+        return diff(year, month, day, isLunar)[0];
     }
 
     /**
      * @return 计算距该日年龄
      */
-    public static int getAge(int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay) {
-        return diff(fromYear, fromMonth, fromDay, toYear, toMonth, toDay)[0];
+    public static int getAge(int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay,
+                             boolean isLunar) {
+        return diff(fromYear, fromMonth, fromDay, toYear, toMonth, toDay, isLunar)[0];
     }
 
     /**

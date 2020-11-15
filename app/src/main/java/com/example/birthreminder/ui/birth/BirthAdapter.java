@@ -76,14 +76,17 @@ public class BirthAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             holder.nameTextView.setText(people.getName());
             holder.nameTextView.setTextColor(people.getColor());
             assert birthDate != null;
-            int[] param = BirthUtil.diff(birthDate.getYear(), birthDate.getMonth(), birthDate.getDay());
+            boolean isLunar = people.getBirthCode() >= BirthUtil.SPECIAL_BIRTHDAY.LUNAR;
+            int[] param = BirthUtil.diff(birthDate.getYear(), birthDate.getMonth(), birthDate.getDay(),
+                    isLunar);
             Log.v("holder", Arrays.toString(param));
             holder.ageTextView.setText(String.valueOf(
                     BirthUtil.getAge(people.getYear(), people.getMonth(), people.getDay(),
-                            birthDate.getYear(), birthDate.getMonth(), birthDate.getDay())));
+                            birthDate.getYear(), birthDate.getMonth(), birthDate.getDay(), isLunar)));
             holder.alsoTextView.setText(param[3] < 0 ? "过了" : "还有");
             holder.yearTextView.setText(String.valueOf(param[0]));
-            holder.monthTextView.setText(String.valueOf(param[1]));
+            int month = people.getMonth();
+            holder.monthTextView.setText(month < 0 ? "闰" + month : String.valueOf(month));
             holder.dayTextView.setText(String.valueOf(param[2]));
             holder.itemView.setClickable(true);
             holder.itemView.setOnClickListener(v -> {

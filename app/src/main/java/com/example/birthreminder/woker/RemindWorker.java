@@ -69,7 +69,8 @@ public class RemindWorker extends Worker {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, BirthApplication.CHANNEL_REMIND_ID)
                 .setSmallIcon(R.mipmap.ic_calendar)
                 .setContentTitle(people.getName() + "的生日快到了")
-                .setContentText(BirthUtil.getAge(people.getYear(), people.getMonth(), people.getDay()) +
+                .setContentText(BirthUtil.getAge(people.getYear(), people.getMonth(), people.getDay(),
+                        people.getBirthCode() >= BirthUtil.SPECIAL_BIRTHDAY.LUNAR) +
                         "还有" + reminder.getBeforeDay() + "天")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(reminder.getContent()))
                 .setContentIntent(pendingIntent)

@@ -43,7 +43,8 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.PeopleHold
         holder.lunarTextView.setText(
                 people.getBirthCode() < BirthUtil.SPECIAL_BIRTHDAY.LUNAR ? "公历" : "农历");
         holder.yearTextView.setText(String.valueOf(people.getYear()));
-        holder.monthTextView.setText(String.valueOf(people.getMonth()));
+        int month = people.getMonth();
+        holder.monthTextView.setText(month < 0 ? "闰" + month : String.valueOf(month));
         holder.dayTextView.setText(String.valueOf(people.getDay()));
         holder.itemView.setClickable(true);
         holder.itemView.setOnClickListener(v -> {

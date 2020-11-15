@@ -81,6 +81,5 @@ public class SMSDialog extends Dialog {
             }
             dismiss();
         });
-        setCanceledOnTouchOutside(true);
     }
 }

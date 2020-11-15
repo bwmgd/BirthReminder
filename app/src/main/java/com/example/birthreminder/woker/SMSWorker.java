@@ -51,7 +51,8 @@ public class SMSWorker extends Worker {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, BirthApplication.CHANNEL_SMS_ID)
                 .setSmallIcon(R.mipmap.ic_calendar)
                 .setContentTitle(people.getName() + "的" +
-                        BirthUtil.getAge(people.getYear(), people.getMonth(), people.getDay()) +
+                        BirthUtil.getAge(people.getYear(), people.getMonth(), people.getDay(),
+                                people.getBirthCode() >= BirthUtil.SPECIAL_BIRTHDAY.LUNAR) +
                         "岁生日到了,点击此处发送送短信来祝福TA吧")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(sms.getMassage()))
                 .setContentIntent(pendingIntent)

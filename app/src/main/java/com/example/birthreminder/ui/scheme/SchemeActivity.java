@@ -57,10 +57,12 @@ public class SchemeActivity extends AppCompatActivity implements DialogInterface
         int year = birthDate.getYear();
         int month = birthDate.getMonth();
         int day = birthDate.getDay();
+
+        boolean isLunar = people.getBirthCode() >= BirthUtil.SPECIAL_BIRTHDAY.LUNAR;
         ((TextView) findViewById(R.id.ageTextView)).setText(String.valueOf(
                 BirthUtil.diff(people.getYear(), people.getMonth(), people.getDay(),
-                        year, month, day)[0]));
-        int[] param = BirthUtil.diff(year, month, day);
+                        year, month, day, isLunar)[0]));
+        int[] param = BirthUtil.diff(year, month, day, isLunar);
         ((TextView) findViewById(R.id.alsoTextView)).setText(param[3] < 0 ? "过了" : "还有");
         ((TextView) findViewById(R.id.yearTextView)).setText(String.valueOf(param[0]));
         ((TextView) findViewById(R.id.monthTextView)).setText(String.valueOf(param[1]));

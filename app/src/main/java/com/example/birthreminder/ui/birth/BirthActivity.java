@@ -120,7 +120,9 @@ public class BirthActivity extends AppCompatActivity implements AddPeopleDialog.
         if (this.people.getYear() == people.getYear() &&
                 this.people.getMonth() == people.getMonth() &&
                 this.people.getDay() == people.getDay()) {
-            if (this.people.getName().equals(people.getName()) && this.people.getPhone().equals(people.getPhone())) {
+            if (this.people.getName().equals(people.getName())
+                    && this.people.getPhone().equals(people.getPhone())
+                    && this.people.getColor() == people.getColor()) {
                 return new long[]{AddPeopleDialog.UpdateListener.NONE, -1};
             }
             else return new long[]{AddPeopleDialog.UpdateListener.NOT_BIRTH, this.people.getId()};
